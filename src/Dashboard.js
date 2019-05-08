@@ -2,52 +2,78 @@ import React, { Component } from "react";
 import axios from "axios";
 
 class Dashboard extends Component {
-  state = {
-    array: [{ name: "Jamie" }],
-    student: "",
-    sent: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      array: [],
+      student: {
+        studentName: ""
+      },
+      sent: false
+    };
+  }
   render() {
     return (
       <div className="Dashboard">
         {this.state.sent === false ? (
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={e => this.handleSubmit(e, this.state.student)}>
             <input
               type="text"
-              name="student"
-              value={this.state.student}
+              name="studentName"
+              value={this.state.student.studentName}
               placeholder="Write your name here!"
               onChange={this.handleChange}
             />
+            <button onClick={e => this.handleSubmit(e, this.state.student)} />
           </form>
         ) : (
-          <div>
-            <p> Thanks for submitting!</p>
-          </div>
+          <i className="fas fa-chalkboard-teacher" />
         )}
-        <i class="fas fa-chalkboard-teacher" />
         <div>
           {this.state.array.map(s => (
-            <p>{s.name}</p>
+            <div>
+              <p>{s.studentName}</p>
+            </div>
           ))}
         </div>
       </div>
     );
   }
-  // componentDidMount() {
-  //   console.log("thumbs-up");
-  //   axios.get("").then(res => {
-  //     console.log(res);
-  //     this.setState({
-  //       array: res.data
-  //     });
-  //   });
-  // }
+  componentDidMount() {
+    this.fetchStudents();
+  }
+  fetchStudents() {
+    console.log("thumbs-up");
+    axios.get("http://localhost:5000/api/sub").then(res => {
+      console.log(res);
+      this.setState({
+        array: res.data
+      });
+    });
+  }
   handleChange = e => {
     this.setState({
-      [e.target.name]: e.target.value
+      // ...this.state,
+      student: {
+        // ...this.state.student,
+        [e.target.name]: e.target.value
+      }
     });
   };
-  handleSubmit = e => {};
+  handleSubmit = (e, sn) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:5000/api/sub", sn)
+      .then(res => {
+        console.log(res);
+        this.fetchStudents();
+        this.setState({
+          sent: true
+        });
+      })
+      .catch(err => {
+        console.log("errrororororor", err);
+      });
+  };
 }
 export default Dashboard;

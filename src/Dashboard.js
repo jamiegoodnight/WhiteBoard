@@ -44,7 +44,7 @@ class Dashboard extends Component {
   }
   fetchStudents() {
     console.log("thumbs-up");
-    axios.get("http://localhost:5000/api/sub").then(res => {
+    axios.get("https://web20jamiewb.herokuapp.com/api/sub").then(res => {
       console.log(res);
       this.setState({
         array: res.data
@@ -63,7 +63,7 @@ class Dashboard extends Component {
   handleSubmit = (e, sn) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/api/sub", sn)
+      .post("https://web20jamiewb.herokuapp.com/api/sub", sn)
       .then(res => {
         console.log(res);
         this.fetchStudents();

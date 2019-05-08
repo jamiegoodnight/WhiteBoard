@@ -24,7 +24,6 @@ class Dashboard extends Component {
               placeholder="Write your name here!"
               onChange={this.handleChange}
             />
-            <button onClick={e => this.handleSubmit(e, this.state.student)} />
           </form>
         ) : (
           <i className="fas fa-chalkboard-teacher" />

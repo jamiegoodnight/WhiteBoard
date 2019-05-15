@@ -31,7 +31,11 @@ class Dashboard extends Component {
         <div>
           {this.state.array.map(s => (
             <div>
-              <p>{s.studentName}</p>
+              <p>{s.studentName}</p>{" "}
+              <i
+                class="fas fa-user-minus"
+                onClick={e => this.deleteItem(e, s.id)}
+              />
             </div>
           ))}
         </div>
@@ -72,6 +76,20 @@ class Dashboard extends Component {
       })
       .catch(err => {
         console.log("errrororororor", err);
+      });
+  };
+  deleteItem = (e, id) => {
+    e.preventDefault();
+    axios
+      .delete(`https://web20jamiewb.herokuapp.com/api/sub/${id}`)
+      .then(res => {
+        this.fetchStudents();
+        this.setState({
+          items: res.data
+        });
+      })
+      .catch(err => {
+        console.log(err);
       });
   };
 }

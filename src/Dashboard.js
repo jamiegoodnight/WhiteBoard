@@ -28,14 +28,10 @@ class Dashboard extends Component {
         ) : (
           <i className="fas fa-chalkboard-teacher" />
         )}
-        <div>
+        <div class="student">
           {this.state.array.map(s => (
             <div>
               <p>{s.studentName}</p>{" "}
-              <i
-                class="fas fa-user-minus"
-                onClick={e => this.deleteItem(e, s.id)}
-              />
             </div>
           ))}
         </div>
@@ -83,14 +79,12 @@ class Dashboard extends Component {
     axios
       .delete(`https://web20jamiewb.herokuapp.com/api/sub/${id}`)
       .then(res => {
-        this.fetchStudents();
-        this.setState({
-          items: res.data
-        });
+        console.log(res);
       })
       .catch(err => {
         console.log(err);
       });
+    this.fetchStudents();
   };
 }
 export default Dashboard;
